@@ -5,20 +5,29 @@ function Add_Expense() {
         Description: "",
         Amount: "",
     });
-
+   
     const [expenses, setExpenses] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);
 
-    //ye Useeffect MongoDb data base Se Data Fetch Karne k liye h
+    // Fetch data from MongoDB
     useEffect(() => {
         fetch("http://localhost:3000/expenses")
             .then(response => response.json())
-            .then(data => setExpenses(data))
+            .then(data => {
+                setExpenses(data);
+                calculateTotal(data);
+            })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-    function Handleclick() {
+    // Calculate total amount
+    const calculateTotal = (data) => {
+        const total = data.reduce((acc, expense) => acc + Number(expense.Amount), 0);
+        setTotalAmount(total);
+    };
 
-        //ye Data Database m Add Karne K liye h 
+    function Handleclick() {
+        // Add new expense to the database
         fetch("http://localhost:3000/Add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -28,10 +37,14 @@ function Add_Expense() {
         .then((data) => {
             console.log(data);
             setUser({ Description: "", Amount: "" }); // Clear input fields after successful submission
+            
             // Fetch updated expenses after adding a new one
             fetch("http://localhost:3000/expenses")
                 .then(response => response.json())
-                .then(data => setExpenses(data))
+                .then(data => {
+                    setExpenses(data);
+                    calculateTotal(data);
+                })
                 .catch(error => console.error('Error fetching data:', error));
         });
     }
@@ -63,6 +76,7 @@ function Add_Expense() {
                     </li>
                 ))}
             </ul>
+            <h3>Total Amount: {totalAmount}</h3>
         </div>
     );
 }
