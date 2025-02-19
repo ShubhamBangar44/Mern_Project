@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import Login from './Routes/index.js';
 
 const app = express();
 const PORT = 3000;
@@ -8,6 +9,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors());
 
+//Mongo DB connection Code 
 mongoose.connect('mongodb://localhost:27017/PersonalManager')
     .then(() => {
         console.log("Connected to MongoDB");
@@ -22,6 +24,10 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+// mongo
+
+
+
 
 app.post('/Add', async (req, res) => {
     try {
@@ -42,6 +48,22 @@ app.get('/expenses', async (req, res) => {
     }
 });
 
+
+app.use('/api', Login); // Use the imported route
+
+
+
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+
+
+
+  // Ensure the correct file extension
+
+ // Allows parsing JSON in requests
+
+

@@ -38,6 +38,8 @@ function Add_Expense() {
             console.log(data);
             setUser({ Description: "", Amount: "" }); // Clear input fields after successful submission
             
+           
+           
             // Fetch updated expenses after adding a new one
             fetch("http://localhost:3000/expenses")
                 .then(response => response.json())
