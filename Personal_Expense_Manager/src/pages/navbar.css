@@ -1,0 +1,45 @@
+/* navbar.css */
+
+#navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+#nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    background: transparent;
+    padding: 1rem;  
+  }
+  #links{
+    display: flex;
+    justify-content: right;
+    margin-right:80px;
+  }
+  #nav h4 {
+    color: rgb(255, 255, 255);
+    margin: 0;
+    font-size:large;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  }
+  
+  #nav a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-right: 30px;
+    
+    font-weight: bold;
+  }
+  
+  #nav a:hover {
+    background-color: #a29999;
+  }
+  

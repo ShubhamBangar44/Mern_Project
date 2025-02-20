@@ -3,31 +3,30 @@ import Home from './components/home';
 import Add_Expense from './components/Add_Expense';
 import Signup from './pages/signup';
 import Login from './pages/login';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Navbar from './pages/navbar';
+import Footer from './pages/footer';
+import View_Expense from './components/View_Exp';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const isAuthenticated = localStorage.getItem("user");
+  
   return (
-    
     <Router>
-      <div>
-        <nav>
-          <Link to="/">Home</Link><br /><br />
-          <Link to="/add-expense">Add Expense</Link>
-          <br />
-          <br />
-          <Link to="/signup">Signup</Link>
-          <br />
-          <br />
-          <Link to="/login">login</Link>
-        </nav>
+      <div className="app-container">
+        <Navbar />
 
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/add-expense" element={<Add_Expense />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <div className="content-container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/add-expense" element={<Add_Expense />} />
+            <Route path="/view-expense" element={<View_Expense />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </div>
+
+        <Footer />
       </div>
     </Router>
   );

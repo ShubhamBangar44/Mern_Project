@@ -1,77 +1,118 @@
-import React,{useState} from 'react'
-import { useNavigate , Link} from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import './signup.css'
+function Signup() {
+  const [user, setUser] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmpassword: ''
+  });
 
-function signup() {
-  const[user , setUser] = useState({
-    username:"",
-    email:"",
-    password:"",
-    confirmpassword:""
-  })
   const navigate = useNavigate();
-  function Handleclick(){
 
-    if(user.password !== user.confirmpassword){
-      alert("Confirm Password Don't Match")
-      return;
-    }
-    if(user.password.length < 8){
-      alert("Password To Small")
+  const handleClick = async () => {
+    if (user.password !== user.confirmpassword) {
+      alert("Confirm Password Don't Match");
       return;
     }
 
-    const {confirmpassword,...userData} =user;
+    if (user.password.length < 8) {
+      alert("Password Too Small");
+      return;
+    }
 
-    fetch('http://localhost:3000/api/signup',{
-      method:'POST',
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(user),
-    })
-    .then((response)=>response.json())
-    .then(data => {
-      if (data.message === "Signup successful") {
-          localStorage.setItem("user", JSON.stringify(data.user)); // Store user in localStorage
-          navigate('/'); // Redirect to home
+    const { confirmpassword, ...userData } = user;
+
+    try {
+      const response = await fetch('http://localhost:3000/api/signup', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+      const { success, message } = result;
+
+      if (success) {
+        alert(message);
+        setTimeout(() => {
+          console.log('Navigating to login');
+
+          navigate('/login');
+        }, 1000);
       } else {
-          alert(data.message); // Show error message
+        alert(message);
       }
-  })
-  .catch(error => console.error('Error:', error));
-}
-    
+    } catch (error) {
+      alert('An error occurred. Please try again later.');
+    }
+  };
+
   return (
-    <div>
-      <input type="username"
-      value={user.username}
-      placeholder='Enter Username'
-      onChange={(e) => setUser({...user,["username"]:e.target.value})}
-      required 
-       />
-       <input type="email"
-      value={user.email}
-      placeholder='Enter email'
-      onChange={(e) => setUser({...user,["email"]:e.target.value})}
-      required 
-       />
-       <input type="password"
-      value={user.password}
-      placeholder='Enter password'
-      onChange={(e) => setUser({...user,["password"]:e.target.value})}
-      required 
-       />
-       <input type="password"
-      value={user.confirmpassword}
-      placeholder='Confirm password'
-      onChange={(e) => setUser({...user,["confirmpassword"]:e.target.value})}
-      required 
-       />
-       <button type='submit' onClick={Handleclick}>Signup</button>
-       <label>Already Signup?</label>
-       <Link to="/login">Login</Link>
+    <div className="signup-container">
+      <form className="signup-form">
+        <h2>Sign Up</h2>
+
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            value={user.username}
+            placeholder="Enter Username"
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={user.email}
+            placeholder="Enter Email"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            value={user.password}
+            placeholder="Enter Password"
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="confirmpassword">Confirm Password</label>
+          <input
+            id="confirmpassword"
+            type="password"
+            value={user.confirmpassword}
+            placeholder="Confirm Password"
+            onChange={(e) => setUser({ ...user, confirmpassword: e.target.value })}
+            required
+          />
+        </div>
+
+         <div className="signup-link">
+                  <label>Already Have an account?</label>
+                  <Link to="/login">login</Link>
+          </div>
+          <button type="button" onClick={handleClick}>Sign Up</button>
+
+      </form>
     </div>
-  )
+  );
 }
 
-export default signup
+export default Signup;

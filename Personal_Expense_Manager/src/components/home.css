@@ -1,0 +1,66 @@
+.container {
+    display: flex;
+    align-items: center; /* Center the content */
+    height: 100vh; /* Ensure it takes full height without causing overflow */
+    z-index: 1; /* Keep the content in front */
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Styling for the home container */
+.home-container {
+    padding: 30px;
+    border-radius: 8px; /* Rounded corners */
+    margin-top: 40px; /* Reduced margin to prevent overflow */
+    color: white;
+    width: 90%;
+    max-width: 600px;
+}
+
+.home-container h1 {
+    font-size: 70px;
+    display: flex;
+    justify-content: left;
+    width: 800px;
+    margin-bottom: 0px;
+}
+
+.home-container h2 {
+    padding: 0;
+}
+
+.home-container span {
+    color: rgb(4, 204, 4);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-text {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* Apply staggered animation delay */
+.home-container h1 {
+    animation-delay: 0.5s; /* Delay for h1 */
+}
+
+.home-container h2 {
+    animation-delay: 1s; /* Delay for h2 */
+}
+
+/* Styling for highlighted text */
+.highlight {
+    color: #FF6347; /* A slightly more vibrant red */
+    font-weight: bold;
+    font-size: 1.2em; /* Slightly bigger for emphasis */
+}
